@@ -1,0 +1,15 @@
+{
+    "my":"My",
+    "home":"Home",
+    "jump_detail":"Go To Detail",
+    "set_language": "Set Language",
+    "english":"English",
+    "chinese": "Chinese",
+    "light_model":"Light Mode",
+    "dark_mode":"Dark Mode",
+    "exit_user":"Exit Login",
+    "system":"System Mode",
+    "detail":"Detail",
+    "login":"Login",
+    "rember_password": "Rember Password"
+}

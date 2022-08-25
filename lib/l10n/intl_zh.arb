@@ -1,0 +1,15 @@
+{
+    "my":"我的",
+    "home":"首页",
+    "jump_detail":"跳转到详情",
+    "set_language":"语言设置",
+    "english":"英语",
+    "chinese":"中文",
+    "light_model":"亮色模式",
+    "dark_mode":"黑暗模式",
+    "exit_user":"退出登陆",
+    "system": "跟随系统",
+    "detail": "详情",
+    "login":"登陆",
+    "rember_password": "记住密码"
+}
