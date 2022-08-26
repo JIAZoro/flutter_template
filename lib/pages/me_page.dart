@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template_plus/common/my_constants.dart';
-import 'package:flutter_template_plus/common/shareinstance_util.dart';
 import 'package:flutter_template_plus/generated/l10n.dart';
 import 'package:flutter_template_plus/http/dao/login_dao.dart';
 import 'package:flutter_template_plus/localization/current_locale_notifier.dart';
@@ -61,7 +59,7 @@ class _MePageState extends State<MePage> {
             child: Text(S.of(context).exit_user),
             onPressed: () {
               LoginDao.removeToken();
-              Provider.of<AppStatus>(context, listen: false).setIsLogin(false);
+              Provider.of<AppStatus>(context, listen: false).updateAppStatus();
             },
           ),
         ],

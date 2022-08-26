@@ -133,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                   _passwordController.text.trim(),
                 );
                 EasyLoading.dismiss();
-                Provider.of<AppStatus>(context, listen: false).setIsLogin(true);
+                Provider.of<AppStatus>(context, listen: false)
+                    .updateAppStatus();
               } on MyNetError catch (e) {
                 // 请求发生异常
                 EasyLoading.showError(e.message);

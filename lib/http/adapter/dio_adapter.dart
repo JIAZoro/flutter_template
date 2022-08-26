@@ -15,9 +15,9 @@ class DioAdapter extends MyNetAdapter {
     Dio _dio = Dio();
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
-      client.findProxy = (uri) {
-        return "PROXY 192.168.2.8:8888";
-      };
+      // client.findProxy = (uri) {
+      //   return "PROXY 192.168.2.8:8888";
+      // };
     };
 
     try {
