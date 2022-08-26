@@ -4,10 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_template_plus/common/my_init.dart';
 import 'package:flutter_template_plus/db/my_cache.dart';
 import 'package:flutter_template_plus/localization/current_locale_notifier.dart';
+import 'package:flutter_template_plus/pages/change_language_page.dart';
+import 'package:flutter_template_plus/pages/detail_page.dart';
 import 'package:flutter_template_plus/pages/login_page.dart';
 import 'package:flutter_template_plus/pages/navigator_page.dart';
 import 'package:flutter_template_plus/provider/my_provider.dart';
 import 'package:flutter_template_plus/provider/theme_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'generated/l10n.dart';
 
@@ -39,6 +42,32 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final goRouter = GoRouter(
+      routes: <GoRoute>[
+        GoRoute(
+            path: '/',
+            builder: (context, state) => NavigatorPage(),
+            routes: <GoRoute>[
+              GoRoute(
+                  path: 'detail',
+                  builder: (context, state) => DetailPage(id: 9876),
+                  routes: [
+                    GoRoute(
+                      path: 'setLanguage',
+                      builder: (context, state) => SettingLanguagePage(),
+                    ),
+                  ]),
+              GoRoute(
+                path: 'setLanguage',
+                builder: (context, state) => SettingLanguagePage(),
+              ),
+            ]),
+        GoRoute(
+          path: '/login',
+          builder: (context, state) => LoginPage(),
+        )
+      ],
+    );
     return FutureBuilder(
       // 进行项目的预初始化
       future: MyInit.init(),
@@ -59,7 +88,10 @@ class _MyAppState extends State<MyApp> {
                   ? (appStatus.isLogin ? NavigatorPage() : LoginPage())
                   // 初始化未完成时，显示 loading 动画
                   : Scaffold(body: Center(child: CircularProgressIndicator()));
-              return MaterialApp(
+              return MaterialApp.router(
+                routerDelegate: goRouter.routerDelegate,
+                routeInformationParser: goRouter.routeInformationParser,
+                routeInformationProvider: goRouter.routeInformationProvider,
                 title: 'flutter_template_plus',
                 theme: themeProvider.getTheme(),
                 darkTheme: themeProvider.getTheme(isDarkMode: false),
@@ -68,16 +100,17 @@ class _MyAppState extends State<MyApp> {
                   // 本地化的代理类
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
                   S.delegate
                 ],
                 locale: currentLocale.value,
                 supportedLocales: [
                   const Locale('en', 'US'), // 美国英语
-                  const Locale('zh', 'CH'), // 中文简体
+                  const Locale('zh', 'CH') // 中文简体
                 ],
                 builder: EasyLoading.init(),
                 // 设置 Router
-                home: widget,
+                // home: widget,
               );
             },
           ),

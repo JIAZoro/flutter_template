@@ -18,7 +18,7 @@ class ThemeProvider extends ChangeNotifier {
   bool isDark() {
     if (_themeMode == ThemeMode.system) {
       // 获取系统的 Dark Mode
-      return SchedulerBinding.instance?.window.platformBrightness ==
+      return SchedulerBinding.instance.window.platformBrightness ==
           Brightness.dark;
     }
     return _themeMode == ThemeMode.dark;
