@@ -30,6 +30,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_ume: ^1.0.1
+  flutter_ume_kit_ui: ^1.0.0
+  flutter_ume_kit_device: ^1.0.0
+  flutter_ume_kit_perf: ^1.0.0
+  flutter_ume_kit_show_code: ^1.0.0
+  flutter_ume_kit_console: ^1.0.0
+  flutter_ume_kit_dio: ^1.0.0
 
 # flutter 相关的配置选项
 flutter:

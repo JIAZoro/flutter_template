@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template_plus/generated/l10n.dart';
 import 'package:flutter_template_plus/http/dao/login_dao.dart';
@@ -64,6 +65,14 @@ class _MePageState extends State<MePage> {
               Provider.of<AppStatus>(context, listen: false).updateAppStatus();
             },
           ),
+          Visibility(
+              visible: !kReleaseMode,
+              child: OutlinedButton(
+                child: Text("开发设置"),
+                onPressed: () {
+                  context.go('/settingDev');
+                },
+              ))
         ],
       ),
     );

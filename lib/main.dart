@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,11 +9,18 @@ import 'package:flutter_template_plus/pages/change_language_page.dart';
 import 'package:flutter_template_plus/pages/detail_page.dart';
 import 'package:flutter_template_plus/pages/login_page.dart';
 import 'package:flutter_template_plus/pages/navigator_page.dart';
+import 'package:flutter_template_plus/pages/setting_dev/setting_page.dart';
 import 'package:flutter_template_plus/provider/my_provider.dart';
 import 'package:flutter_template_plus/provider/theme_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'generated/l10n.dart';
+import 'package:flutter_ume/flutter_ume.dart';
+import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart';
+import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart';
+import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart';
+import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart';
+import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
 
 void main() async {
   // 网格线
@@ -23,7 +31,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await MyCache.preInit();
-  runApp(MyApp());
+  if (kReleaseMode) {
+    runApp(MyApp());
+  } else {
+    PluginManager.instance
+      ..register(WidgetInfoInspector())
+      ..register(WidgetDetailInspector())
+      ..register(AlignRuler())
+      ..register(TouchIndicator())
+      ..register(Performance())
+      ..register(ShowCode())
+      ..register(DeviceInfoPanel())
+      ..register(Console());
+    runApp(UMEWidget(
+      enable: true,
+      child: MyApp(),
+    ));
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -45,23 +69,25 @@ class _MyAppState extends State<MyApp> {
     final goRouter = GoRouter(
       routes: <GoRoute>[
         GoRoute(
-            path: '/',
-            builder: (context, state) => NavigatorPage(),
-            routes: <GoRoute>[
-              GoRoute(
-                  path: 'detail',
-                  builder: (context, state) => DetailPage(id: 9876),
-                  routes: [
-                    GoRoute(
-                      path: 'setLanguage',
-                      builder: (context, state) => SettingLanguagePage(),
-                    ),
-                  ]),
+          path: '/',
+          builder: (context, state) => NavigatorPage(),
+          routes: <GoRoute>[
+            GoRoute(path: 'detail', builder: (context, state) => DetailPage(id: 9876), routes: [
               GoRoute(
                 path: 'setLanguage',
                 builder: (context, state) => SettingLanguagePage(),
               ),
             ]),
+            GoRoute(
+              path: 'setLanguage',
+              builder: (context, state) => SettingLanguagePage(),
+            ),
+            GoRoute(
+              path: 'settingDev',
+              builder: (context, state) => SettingPage(),
+            )
+          ],
+        ),
         GoRoute(
           path: '/login',
           builder: (context, state) => LoginPage(),
@@ -74,28 +100,34 @@ class _MyAppState extends State<MyApp> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return MultiProvider(
           providers: topProviders,
+
           // 这里通过 Consumer 读取数据，灵活度高
           // 还有其他的读取方式，比如 context.read<ThemeProvider>()
-          child: Consumer3<ThemeProvider, CurrentLocale, AppStatus>(
+          child: Selector3<ThemeProvider, CurrentLocale, AppStatus, List>(
+            selector: (context, p1, p2, p3) {
+              return [p1, p2, p3];
+            },
+            shouldRebuild: (previous, next) {
+              return previous != next;
+            },
             builder: (
               BuildContext context,
-              ThemeProvider themeProvider,
-              CurrentLocale currentLocale,
-              AppStatus appStatus,
+              dynamic value,
               Widget? child,
             ) {
               Widget widget = snapshot.connectionState == ConnectionState.done
-                  ? (appStatus.isLogin ? NavigatorPage() : LoginPage())
+                  ? (value[2].isLogin ? NavigatorPage() : LoginPage())
                   // 初始化未完成时，显示 loading 动画
                   : Scaffold(body: Center(child: CircularProgressIndicator()));
+
               return MaterialApp.router(
                 routerDelegate: goRouter.routerDelegate,
                 routeInformationParser: goRouter.routeInformationParser,
                 routeInformationProvider: goRouter.routeInformationProvider,
                 title: 'flutter_template_plus',
-                theme: themeProvider.getTheme(),
-                darkTheme: themeProvider.getTheme(isDarkMode: false),
-                themeMode: themeProvider.getThemeMode(),
+                theme: value[0].getTheme(),
+                darkTheme: value[0].getTheme(isDarkMode: true),
+                themeMode: value[0].getThemeMode(),
                 localizationsDelegates: [
                   // 本地化的代理类
                   GlobalMaterialLocalizations.delegate,
@@ -103,7 +135,7 @@ class _MyAppState extends State<MyApp> {
                   GlobalCupertinoLocalizations.delegate,
                   S.delegate
                 ],
-                locale: currentLocale.value,
+                locale: value[1].value,
                 supportedLocales: [
                   const Locale('en', 'US'), // 美国英语
                   const Locale('zh', 'CH') // 中文简体
