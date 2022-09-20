@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template_plus/generated/l10n.dart';
 import 'package:flutter_template_plus/pages/detail_page.dart';
@@ -41,6 +42,7 @@ class _HomePageState extends State<HomePage> {
             //     return DetailPage(id: 1234);
             //   },
             // ));
+            FirebaseAnalytics.instance.logEvent(name: "check Detail");
             context.go('/detail');
           },
         ),
