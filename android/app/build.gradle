@@ -31,6 +31,25 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    flavorDimensions "app"
+    productFlavors {
+        channela {
+            dimension "app"
+            applicationId "com.example.flutter_template_plus"
+            minSdkVersion 22
+            targetSdkVersion 31
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
+        channelb {
+            dimension "app"
+            applicationId "com.example.flutter_template_plus"
+            minSdkVersion 22
+            targetSdkVersion 31
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
+    }
     compileSdkVersion 31
 
     compileOptions {
@@ -43,17 +62,19 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        // main.java.srcDirs += 'src/main/kotlin'
+        channela.res.srcDirs += 'src/main/kotlin'
+        channelb.res.srcDirs += 'src/main/kotlin'
     }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.flutter_template_plus"
-        minSdkVersion 22
-        targetSdkVersion 31
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-    }
+     defaultConfig {
+         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+         applicationId "com.example.flutter_template_plus"
+         minSdkVersion 22
+         targetSdkVersion 31
+         versionCode flutterVersionCode.toInteger()
+         versionName flutterVersionName
+     }
 
     buildTypes {
         release {

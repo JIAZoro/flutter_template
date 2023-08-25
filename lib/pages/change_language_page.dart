@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template_plus/flavor_config.dart';
 import 'package:flutter_template_plus/generated/l10n.dart';
 import 'package:flutter_template_plus/localization/current_locale_notifier.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class _SettingLanguagePageState extends State<SettingLanguagePage> {
       ),
       body: Column(
         children: [
+          FlavorCongig.instance.flavor == Flavor.AppA ? Text("this is a") : Text("this is B"),
           OutlinedButton(
               onPressed: () {
                 // Set local

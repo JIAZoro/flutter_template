@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '581851996202',
     projectId: 'flutter-template-jia',
     storageBucket: 'flutter-template-jia.appspot.com',
-    iosClientId: '581851996202-4qs3pah6ul76ctkr6rq5eg7807p2ebje.apps.googleusercontent.com',
+    iosClientId:
+        '581851996202-4qs3pah6ul76ctkr6rq5eg7807p2ebje.apps.googleusercontent.com',
     iosBundleId: 'com.fluttertemplate.jia',
   );
 }

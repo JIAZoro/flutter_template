@@ -1,7 +1,6 @@
 import 'package:flutter_template_plus/http/core/my_base_request.dart';
 
 class LoginRequest extends MyBaseRequest {
-
   // 请求类型
   @override
   HttpMethod httpMethod() {

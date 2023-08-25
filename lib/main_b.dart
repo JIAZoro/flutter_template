@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_template_plus/common/dismiss_keyboard.dart';
 import 'package:flutter_template_plus/common/my_init.dart';
 import 'package:flutter_template_plus/db/my_cache.dart';
+import 'package:flutter_template_plus/flavor_config.dart';
 import 'package:flutter_template_plus/localization/current_locale_notifier.dart';
 import 'package:flutter_template_plus/pages/change_language_page.dart';
 import 'package:flutter_template_plus/pages/detail_page.dart';
@@ -35,6 +36,7 @@ void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // 应用入口
   WidgetsFlutterBinding.ensureInitialized();
+  FlavorCongig(flavor: Flavor.AppB, appName: "AppB");
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
