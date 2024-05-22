@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
 
 enum Flavor {
-  AppA,
-  AppB,
+  DevEnv,
+  TestEnv,
+  ProdEnv,
 }
 
-class FlavorCongig {
+class FlavorConfig {
   final Flavor flavor;
   final String appName;
-  static late FlavorCongig instance;
+  static late FlavorConfig instance;
 
-  FlavorCongig._internal(this.flavor, this.appName);
-  factory FlavorCongig({required Flavor flavor, required String appName}) {
-    instance = FlavorCongig._internal(flavor, appName);
+  FlavorConfig._internal(this.flavor, this.appName);
+  factory FlavorConfig({required Flavor flavor, required String appName}) {
+    instance = FlavorConfig._internal(flavor, appName);
     return instance;
   }
 }

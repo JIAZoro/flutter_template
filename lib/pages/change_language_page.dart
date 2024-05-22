@@ -21,7 +21,7 @@ class _SettingLanguagePageState extends State<SettingLanguagePage> {
       ),
       body: Column(
         children: [
-          FlavorCongig.instance.flavor == Flavor.AppA ? Text("this is a") : Text("this is B"),
+          FlavorConfig.instance.flavor == Flavor.DevEnv ? Text("this is a") : Text("this is B"),
           OutlinedButton(
               onPressed: () {
                 // Set local

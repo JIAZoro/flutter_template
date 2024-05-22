@@ -8,7 +8,6 @@ import 'package:flutter_template_plus/pages/login_page.dart';
 import 'package:flutter_template_plus/provider/theme_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MePage extends StatefulWidget {
   const MePage({Key? key}) : super(key: key);

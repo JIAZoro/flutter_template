@@ -1,4 +1,4 @@
-import 'package:firebase_performance/firebase_performance.dart';
+// import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,17 +16,11 @@ import 'package:flutter_template_plus/provider/my_provider.dart';
 import 'package:flutter_template_plus/provider/theme_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
+import 'flavor_config.dart';
 import 'generated/l10n.dart';
-import 'package:flutter_ume/flutter_ume.dart';
-import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart';
-import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart';
-import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart';
-import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart';
-import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   // 网格线
@@ -36,34 +30,15 @@ void main() async {
   // 应用入口
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-
-  await FirebasePerformance.instance.setPerformanceCollectionEnabled(true);
+  FlavorConfig(flavor: Flavor.ProdEnv, appName: "ProdEnv");
 
   await MyCache.preInit();
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   if (kReleaseMode) {
     runApp(MyApp());
   } else {
-    PluginManager.instance
-      ..register(WidgetInfoInspector())
-      ..register(WidgetDetailInspector())
-      ..register(AlignRuler())
-      ..register(TouchIndicator())
-      ..register(Performance())
-      ..register(ShowCode())
-      ..register(DeviceInfoPanel())
-      ..register(Console());
-    runApp(UMEWidget(
-      enable: true,
-      child: MyApp(),
-    ));
+    runApp(MyApp());
   }
 }
 

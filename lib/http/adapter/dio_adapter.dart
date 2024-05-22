@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_template_plus/flavor_config.dart';
 import 'package:flutter_template_plus/http/core/my_net_adapter.dart';
 import 'package:flutter_template_plus/http/core/my_net_error.dart';
 import 'package:flutter_template_plus/http/core/my_base_request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Dio 适配器
 class DioAdapter extends MyNetAdapter {
@@ -13,11 +17,24 @@ class DioAdapter extends MyNetAdapter {
     var options = Options(headers: request.header);
 
     Dio _dio = Dio();
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      // client.findProxy = (uri) {
-      //   return "PROXY 192.168.2.8:8888";
-      // };
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+      // 忽略证书验证，生产模式慎用
+      if (FlavorConfig.instance.flavor == Flavor.DevEnv) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      }
+      
+      client.findProxy = (uri) {
+        String proxyip = '';
+        SharedPreferences.getInstance().then((prf) {
+          if ((prf.getString('proxy') ?? '').length > 0) {
+            proxyip ="PROXY ${prf.getString('proxy')}";
+          } else {
+            proxyip = "DIRECT";
+          }
+        });
+        return proxyip;
+      };
+      return client;
     };
 
     try {

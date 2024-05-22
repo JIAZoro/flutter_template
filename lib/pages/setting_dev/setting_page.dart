@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template_plus/db/my_cache.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -8,6 +10,9 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +29,16 @@ class _SettingPageState extends State<SettingPage> {
                 Text("代理设置："),
                 Expanded(
                     child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "输入代理端口，如：127.0.0.1:8080",
-                    hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                ))
+                      controller: _textEditingController,
+                      decoration: InputDecoration(
+                        hintText: "输入代理端口，如：127.0.0.1:8080",
+                        hintStyle: TextStyle(fontSize: 12, color: Colors.grey)),
+                )),
+                TextButton(onPressed:() async {
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  pref.setString('proxy', _textEditingController.text);
+
+                }, child: Text('保存代理'))
               ],
             ),
           )

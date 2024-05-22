@@ -52,12 +52,12 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData getTheme({bool isDarkMode = false}) {
     var themeData = ThemeData(
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
-      errorColor: isDarkMode ? MyColor.dark_red : MyColor.light_red,
       scaffoldBackgroundColor: isDarkMode ? MyColor.dark_bg : MyColor.white,
-      // colorScheme: ColorScheme.fromSwatch().copyWith(
-      //   brightness: isDarkMode ? Brightness.dark : Brightness.light,
-      //   primary: MyColor.primary,
-      // ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        primary: MyColor.primary,
+        error: isDarkMode ? MyColor.dark_red : MyColor.light_red,
+      ),
     );
     return themeData;
   }

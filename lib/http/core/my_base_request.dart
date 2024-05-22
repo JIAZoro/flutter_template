@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_template_plus/common/my_constants.dart';
+import 'package:flutter_template_plus/flavor_config.dart';
+import 'package:flutter_template_plus/http/core/api_config.dart';
 import 'package:flutter_template_plus/http/dao/login_dao.dart';
 
 /// RESTful 请求
@@ -24,7 +27,16 @@ abstract class MyBaseRequest {
 
   // 默认域名
   String authority() {
-    return 'vue-typescript-admin-mock-server-armour.vercel.app';
+    switch (FlavorConfig.instance.flavor) {
+      case Flavor.DevEnv:
+        return DevEnv().apiConfig.apiHost;
+      case Flavor.TestEnv:
+        return TestEnv().apiConfig.apiHost;
+      case Flavor.ProdEnv:
+        return ProductEnv().apiConfig.apiHost;
+      default:
+        return '';
+    }
   }
 
   // 生成具体的 url
