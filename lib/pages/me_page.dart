@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template_plus/generated/l10n.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_template_plus/http/dao/login_dao.dart';
 import 'package:flutter_template_plus/localization/current_locale_notifier.dart';
 import 'package:flutter_template_plus/pages/change_language_page.dart';
 import 'package:flutter_template_plus/pages/login_page.dart';
+import 'package:flutter_template_plus/pages/setting_dev/blue_tooth_page.dart';
 import 'package:flutter_template_plus/provider/theme_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +66,11 @@ class _MePageState extends State<MePage> {
               Provider.of<AppStatus>(context, listen: false).updateAppStatus();
             },
           ),
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
+              return BluetoothPage();
+            }));
+          }, child: Text('蓝牙')),
           Visibility(
               visible: !kReleaseMode,
               child: OutlinedButton(
